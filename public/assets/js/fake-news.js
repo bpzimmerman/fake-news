@@ -39,4 +39,11 @@ $(document).ready(function(){
       };
     });
   });
+
+  // comments button click
+  $(document).on("click", ".note", function(event){
+    $("#comment-title").empty();
+    var title = `Article ${$(this).attr("data-id")} Comments`;
+    $("#comment-title").text(title);
+  });
 });
