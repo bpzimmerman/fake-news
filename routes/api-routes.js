@@ -32,23 +32,18 @@ module.exports = function(app) {
             console.log(err);
           } else {
             if (result.length === 0){
+              // if that article is not saved, push to the articles array in the data object
               data.articles.push({
                 title: title,
                 link: link,
                 summary: summary,
-                picture: picture
+                picture: picture,
+                saved: false
               });
-            }
+          };
           };
         });
 
-        // make an object from the scraped data and push it into the articles array inside the data object
-        // data.articles.push({
-        //   title: title,
-        //   link: link,
-        //   summary: summary,
-        //   picture: picture
-        // });
       });
 
       // render the page using the scraped data
@@ -70,7 +65,15 @@ module.exports = function(app) {
   });
 
   app.get("/savedarticles", function(req, res) {
-
+    db.Article.find({
+    }, function(err, data){
+      if (err){
+        res.send(500);
+        console.log(err);
+      } else {
+        res.render("index", {articles: data});
+      };
+    });
   });
 
   app.post("/savedarticles", function(req, res) {
@@ -86,8 +89,17 @@ module.exports = function(app) {
     });
   });
 
-  app.delete("/api/articles", function(req, res) {
-
+  app.delete("/savedarticles", function(req, res) {
+    db.Article.remove({
+      _id: req.body.id
+    }, function(err, data){
+      if (err) {
+        res.send(500);
+        console.log(err);
+      } else {
+        res.json(data);
+      };
+    });
   });
 
 };

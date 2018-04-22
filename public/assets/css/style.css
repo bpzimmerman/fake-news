@@ -1,3 +1,7 @@
+form.form-inline.my-2.my-lg-0{
+  margin-left: 1rem;
+}
+
 .jumbotron {
   background-image: url(../img/fake-news.jpg)
 }
@@ -39,6 +43,7 @@ a:visited {
 
 a.btn.btn-primary {
   color: #fff;
+  margin-bottom: 10px;
 }
 
 .col-sm-2 {

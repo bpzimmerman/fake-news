@@ -9,7 +9,12 @@
             </a>
           </div>
           <div class="col-md-2">
-            <a class="btn btn-primary save" data-title="{{title}}" data-link="{{link}}" data-summary="{{summary}}" data-picture="{{picture}}">Save Article</a>
+            {{#if saved}}
+              <a class="btn btn-primary delete" data-id="{{_id}}">Delete Article</a>
+              <a class="btn btn-primary note">Add Comment</a>
+            {{else}}
+              <a class="btn btn-primary save" data-title="{{title}}" data-link="{{link}}" data-summary="{{summary}}" data-picture="{{picture}}">Save Article</a>
+            {{/if}}
           </div>
         </div>
       </h4>
