@@ -11,7 +11,7 @@ module.exports = function(app) {
       // Load the HTML into cheerio and save it to a variable
       var $ = cheerio.load(html);
 
-      // An empty array to save the data that we'll scrape
+      // empty object containing an array to save the scraped data
       var data = {
         articles: []
       };
@@ -24,23 +24,66 @@ module.exports = function(app) {
         var summary = $(element).children(".js_item-content").children(".entry-summary").children("p").text();
         var picture = $(element).children(".js_item-content").children("figure").children("a").children(".img-wrapper").children("picture").children("source").attr("data-srcset");
 
-        // make an object from the scraped data and push it into the results array
-        data.articles.push({
-          title: title,
-          link: link,
-          summary: summary,
-          picture: picture
+        db.Article.find({
+          title: title
+        }, function (err, result){
+          if (err) {
+            res.send(500);
+            console.log(err);
+          } else {
+            if (result.length === 0){
+              data.articles.push({
+                title: title,
+                link: link,
+                summary: summary,
+                picture: picture
+              });
+            }
+          };
         });
+
+        // make an object from the scraped data and push it into the articles array inside the data object
+        // data.articles.push({
+        //   title: title,
+        //   link: link,
+        //   summary: summary,
+        //   picture: picture
+        // });
       });
 
-      // Log the results once you've looped through each of the elements found with cheerio
+      // render the page using the scraped data
       res.render("index", data);
-      // res.send(data.articles);
     });
   });
 
-  app.post("/api/articles", function(req, res) {
+  app.get("/checksaved", function(req, res) {
+    db.Article.find({
+      title: req.query.title
+    }, function (err, data){
+      if (err){
+        res.send(500);
+        console.log(err);
+      } else {
+        res.json(data);
+      };
+    });
+  });
 
+  app.get("/savedarticles", function(req, res) {
+
+  });
+
+  app.post("/savedarticles", function(req, res) {
+    db.Article.create({
+      title: req.body.title,
+      link: req.body.link,
+      summary: req.body.summary,
+      picture: req.body.picture
+    }).then(function(dbArticle){
+      res.json(dbArticle);
+    }).catch(function(err){
+      res.json(err);
+    });
   });
 
   app.delete("/api/articles", function(req, res) {
