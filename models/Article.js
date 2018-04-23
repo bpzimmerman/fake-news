@@ -20,10 +20,6 @@ var ArticleSchema = new Schema({
   picture: {
     type: String
   },
-  saved: {
-    type: Boolean,
-    default: true
-  },
   // reference for attached comments
   comment: {
     type: Schema.Types.ObjectId,

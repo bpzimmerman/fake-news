@@ -6,8 +6,7 @@ $(document).ready(function(){
       title: $(this).attr("data-title"),
       link: $(this).attr("data-link"),
       summary: $(this).attr("data-summary"),
-      picture: $(this).attr("data-picture"),
-      saved: true
+      picture: $(this).attr("data-picture")
     };
     $.ajax({
       method: "POST",
