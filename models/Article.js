@@ -19,11 +19,6 @@ var ArticleSchema = new Schema({
   },
   picture: {
     type: String
-  },
-  // reference for attached comments
-  comment: {
-    type: Schema.Types.ObjectId,
-    ref: "Remark"
   }
 });
 

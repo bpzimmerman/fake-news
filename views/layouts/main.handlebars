@@ -75,15 +75,15 @@
         </div>
         <div class="modal-body">
           <ul class="list-group" id="comment-list">
-            <li class="list-group-item">No comments for this article yet.</li>
+            {{!-- list of associated comments --}}
           </ul>
           <div class="form-group">
             <textarea placeholder="New Comment" class="form-control" id="comment-text" rows="5" cols="60"></textarea>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save Comments</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="save-comment" data-dismiss="modal">Save Comments</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ var request = require("request");
 
 module.exports = function(app) {
   
+  // get route to display all the new articles
   app.get("/newarticles", function(req, res) {
 
     // get all the saved titles in the database and push them to an array by themselves
@@ -56,19 +57,7 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/checksaved", function(req, res) {
-    db.Article.find({
-      title: req.query.title
-    }, function (err, data){
-      if (err){
-        res.send(500);
-        console.log(err);
-      } else {
-        res.json(data);
-      };
-    });
-  });
-
+  // get route to display all the saved articles
   app.get("/savedarticles", function(req, res) {
     db.Article.find({
     }, function(err, data){
@@ -84,6 +73,7 @@ module.exports = function(app) {
     });
   });
 
+  // post route to save an atricle to the database
   app.post("/savedarticles", function(req, res) {
     db.Article.create({
       title: req.body.title,
@@ -97,6 +87,7 @@ module.exports = function(app) {
     });
   });
 
+  // delete route to remove a saved article from the database
   app.delete("/savedarticles", function(req, res) {
     db.Article.remove({
       _id: req.body.id
@@ -107,6 +98,29 @@ module.exports = function(app) {
       } else {
         res.json(data);
       };
+    });
+  });
+
+  // get route to retrieve the comments associated with a specified article
+  app.get("/savednotes", function(req, res) {
+    db.Note.find({
+      article: req.query.articleId
+    }).then(function(dbNote) {
+      res.json(dbNote);
+    }).catch(function(err) {
+      res.json(err);
+    });
+  });
+
+  // post route to add a comment to the specified article
+  app.post("/savednotes", function(req, res) {
+    db.Note.create({
+      body: req.body.body,
+      article: req.body.article
+    }).then(function(dbNote){
+      res.json(dbNote);
+    }).catch(function(err){
+      res.json(err);
     });
   });
 
