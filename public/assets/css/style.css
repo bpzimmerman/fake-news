@@ -23,6 +23,14 @@ form.form-inline.my-2.my-lg-0{
   padding-bottom: 1rem;
 }
 
+.rgt-oni {
+  text-align: left;
+}
+
+.left-oni {
+  text-align: right;
+}
+
 .card-body img {
   max-width: 15rem;
   margin-right: 0.5rem;
@@ -48,4 +56,10 @@ a.btn.btn-primary {
 
 .col-sm-2 {
   text-align: right;
+}
+
+@media screen and (max-width: 768px) {
+  .rgt-oni, .left-oni {
+    text-align: center;
+  }
 }
