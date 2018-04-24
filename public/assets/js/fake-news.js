@@ -1,14 +1,36 @@
 $(document).ready(function(){
 
+  function getSavedNotes(articleId){
+    $.ajax({
+      method: "GET",
+      url: "/savednotes",
+      data: {articleId: articleId}
+    }).then(function(data) {
+      $("#comment-list").empty();
+      if (data.length === 0){
+        $("#comment-list").append('<li class="list-group-item">No comments for this article yet.</li>')
+      } else {
+        createCommentsList(data);
+      };
+    });
+  };
+
+  // function creating the list of saved articles in the modal
   function createCommentsList(dataArray){
     dataArray.forEach(function(item){
       var displayDate = item.created.substr(0, 10);
       var newListItem = $("<li>")
-      newListItem.attr("class", "list-group-item")
-                 .text(`${displayDate}: ${item.body}`);
-      $("#comment-list").append(newListItem);
+      newListItem.attr("class", "list-group-item d-flex justify-content-between align-items-center");
+      newListItem.text(`${displayDate}: ${item.body}`);
+      var newBttn = $("<button>");
+      newBttn.attr("class", "btn badge badge-primary badge-pill delNote");
+      newBttn.attr("data-id", item._id);
+      newBttn.text("x");
+      newListItem.append(newBttn);
+      $("#comment-list").prepend(newListItem);
     })
   }
+
   // save article button click
   $(document).on("click", ".save", function(event){
     var data = {
@@ -31,7 +53,7 @@ $(document).ready(function(){
   });
 
   // delete article button click
-  $(document).on("click", ".delete", function(event){
+  $(document).on("click", ".delArticle", function(event){
     var data = {
       id: $(this).attr("data-id")
     };
@@ -48,28 +70,18 @@ $(document).ready(function(){
     });
   });
 
-  // comments button click
+  // comments button click to bring up the comments modal
   $(document).on("click", ".note", function(event){
     $("#comment-title").empty();
-    $("#comment-list").empty();
     var articleId = $(this).attr("data-id");
-    var title = `Article ${articleId} Comments`;
+    var title = `Article Comments:
+${articleId}`;
     $("#comment-title").attr("data-id", articleId);
     $("#comment-title").text(title);
-    $.ajax({
-      method: "GET",
-      url: "/savednotes",
-      data: {articleId: articleId}
-    }).then(function(data) {
-      console.log(data);
-      if (data.length === 0){
-        $("#comment-list").append('<li class="list-group-item">No comments for this article yet.</li>')
-      } else {
-        createCommentsList(data);
-      }
-    });
+    getSavedNotes(articleId);
   });
 
+  // save comment button click
   $(document).on("click", "#save-comment", function(event){
     event.preventDefault();
     var articleId = $("#comment-title").attr("data-id");
@@ -88,5 +100,25 @@ $(document).ready(function(){
         console.log(data);
       });
     };
-  })
+  });
+
+  // delete comment button click
+  $(document).on("click", ".delNote", function(event){
+    var data = {
+      id: $(this).attr("data-id")
+    };
+    $.ajax({
+      method: "DELETE",
+      url: "/savednotes",
+      data: data
+    }).done(function(result){
+      var articleId = $("#comment-title").attr("data-id");
+      getSavedNotes(articleId);
+      console.log(result);
+    }).fail(function(xhr, responseText, responseStatus){
+      if (xhr){
+        console.log(xhr.responseText);
+      };
+    });
+  });
 });

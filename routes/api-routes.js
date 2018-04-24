@@ -124,4 +124,16 @@ module.exports = function(app) {
     });
   });
 
+  app.delete("/savednotes", function(req, res) {
+    db.Note.remove({
+      _id: req.body.id
+    }, function(err, data){
+      if (err) {
+        res.send(500);
+        console.log(err);
+      } else {
+        res.json(data);
+      };
+    });
+  });
 };

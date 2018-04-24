@@ -10,7 +10,7 @@
           </div>
           <div class="col-md-2">
             {{#if saved}}
-              <a class="btn btn-primary delete" data-id="{{_id}}">Delete Article</a>
+              <a class="btn btn-primary delArticle" data-id="{{_id}}">Delete Article</a>
               <a class="btn btn-primary note" data-id="{{_id}}" data-toggle="modal" data-target="#notes-modal">Comments</a>
             {{else}}
               <a class="btn btn-primary save" data-title="{{title}}" data-link="{{link}}" data-summary="{{summary}}" data-picture="{{picture}}">Save Article</a>
