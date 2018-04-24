@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+  // function to get any notes associated with the article
   function getSavedNotes(articleId){
     $.ajax({
       method: "GET",
@@ -29,7 +30,7 @@ $(document).ready(function(){
       newListItem.append(newBttn);
       $("#comment-list").prepend(newListItem);
     })
-  }
+  };
 
   // save article button click
   $(document).on("click", ".save", function(event){
@@ -97,12 +98,12 @@ ${articleId}`;
         url: "/savednotes",
         data: commentData
       }).then(function(data) {
-        console.log(data);
+        console.log("Comment saved!");
       });
     };
   });
 
-  // delete comment button click
+  // delete comment button click (deletes a single comment)
   $(document).on("click", ".delNote", function(event){
     var data = {
       id: $(this).attr("data-id")
@@ -114,7 +115,6 @@ ${articleId}`;
     }).done(function(result){
       var articleId = $("#comment-title").attr("data-id");
       getSavedNotes(articleId);
-      console.log(result);
     }).fail(function(xhr, responseText, responseStatus){
       if (xhr){
         console.log(xhr.responseText);

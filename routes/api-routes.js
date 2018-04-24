@@ -89,15 +89,17 @@ module.exports = function(app) {
 
   // delete route to remove a saved article from the database
   app.delete("/savedarticles", function(req, res) {
-    db.Article.remove({
-      _id: req.body.id
-    }, function(err, data){
-      if (err) {
-        res.send(500);
-        console.log(err);
-      } else {
-        res.json(data);
-      };
+    // first remove any note associated with the article
+    db.Note.remove({
+      article: req.body.id
+    // then remove the article itself
+    }).then(function(dbNote){
+      return db.Article.remove({_id: req.body.id})
+    // respond to the browser
+    }).then(function(dbArticle){
+      res.json(dbArticle);
+    }).catch(function(err){
+      res.json(err);
     });
   });
 
@@ -124,6 +126,7 @@ module.exports = function(app) {
     });
   });
 
+  // delete route to remove a comment
   app.delete("/savednotes", function(req, res) {
     db.Note.remove({
       _id: req.body.id
