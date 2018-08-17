@@ -32,7 +32,7 @@ This application uses Cheerio to scrape the articles from [The Onion](https://ww
 
 ![Comments Screenshot](readme_img/comments.PNG)
 
-1. Clicking the `Comments` button will open a modal that will alow the user to add a comment to the article. Multiple comments can be associated with the same article and will display in a list just above the new comment text box.
+1. Clicking the `Comments` button will open a modal that will allow the user to add a comment to the article. Multiple comments can be associated with the same article and will display in a list just above the new comment text box.
 
 2. Clicking the `x` next to the comment will remove just that comment from the database.
 
